@@ -21,8 +21,6 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-
-
   MyHomePage({Key key, this.title}) : super(key: key);
   final String title;
 
@@ -35,7 +33,6 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   Future<PostResponse> post;
 
   Future<PostResponse> fetchPost() async {
-    print('call post');
     final response = await http.get('https://conf.grepiu.com/grepiu/post?currentPage=0&size=100');
 
     if(response.statusCode == 200) {
@@ -57,7 +54,6 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
 
   }
 
-
   @override
   void dispose() {
     super.dispose();
@@ -69,11 +65,11 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
     if(state == AppLifecycleState.resumed) {
       post = fetchPost();
     }
-    print("lifecycle : " + state.toString());
   }
 
   @override
   Widget build(BuildContext context) {
+    // List
     Widget listRow(String title, String regId) {
       return Container(
         padding: const EdgeInsets.all(32),
@@ -106,51 +102,6 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
       );
     }
 
-
-//    Column _buildButtonColumn(Color color, IconData icon, String label) {
-//      return Column(
-//        mainAxisSize: MainAxisSize.min,
-//        mainAxisAlignment: MainAxisAlignment.center,
-//        children: <Widget>[
-//          Icon(icon, color: color),
-//          Container(
-//            margin: const EdgeInsets.only(
-//                top: 8
-//            ),
-//            child: Text(
-//              label,
-//              style: TextStyle(
-//                fontSize: 12,
-//                fontWeight: FontWeight.w400,
-//                color: color
-//              )
-//            )
-//          )
-//        ],
-//      );
-//    }
-
-//    Color color = Theme.of(context).primaryColor;
-
-//    Widget buttonSession = Container(
-//      child: Row(
-//        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//        children: <Widget>[
-//          _buildButtonColumn(color, Icons.call, 'Call'),
-//          _buildButtonColumn(color, Icons.near_me, 'Route'),
-//          _buildButtonColumn(color, Icons.share, 'Share'),
-//        ],
-//      )
-//    );
-
-    Widget textSection = Container(
-      padding: const EdgeInsets.all(32),
-      child: Text(
-        '샘플 테스트',
-        softWrap: true,
-      ),
-    );
-
     return Scaffold(
       appBar: AppBar(
         title: Text('GrepIU'),
@@ -168,7 +119,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
                       },
                     );
                   } else if(snapshot.hasError) {
-                    return Text('ERROR');
+                    return Text('ERROR : ${snapshot.error}');
                   } else {
                     return Text("EMPTY");
                   }
